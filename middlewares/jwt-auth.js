@@ -1,7 +1,7 @@
-let jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../environments');
 
-let validateToken = (req, res, next) => {
+const validateToken = (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(400).send({
             success: false,
@@ -9,9 +9,9 @@ let validateToken = (req, res, next) => {
         });
     }
 
-    let authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization;
     if (authHeader.startsWith("Bearer ")) {
-        let token = authHeader.substring(7, authHeader.length);
+        const token = authHeader.substring(7, authHeader.length);
         jwt.verify(token, JWT_SECRET, (err, decoded) => {
             if (err) {
                 return res.status(401).send({

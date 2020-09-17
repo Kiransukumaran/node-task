@@ -1,6 +1,6 @@
 const applicationEnv = process.env.NODE_ENV || 'dev';
 // load the envrionment variables from json
-let enviroment = require('./env.js');
+const enviroment = require('./env.js');
 
 if (applicationEnv === 'prod') {
     enviroment = enviroment.prod;

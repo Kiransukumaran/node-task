@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../server');
-let should = chai.should();
+const should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -173,7 +173,7 @@ describe('Profile', () => {
 
     describe('/GET auth/profile with invalid token', () => {
         it('it should return error due to invalid token', (done) => {
-            let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjAwMzUxODEzLCJleHAiOjE2MDAzNTE4MTh9.ugHl5YZku8V7U6F-R7KII7KInVbQ1IBb_k7MUkk__Z0";
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjAwMzUxODEzLCJleHAiOjE2MDAzNTE4MTh9.ugHl5YZku8V7U6F-R7KII7KInVbQ1IBb_k7MUkk__Z0";
             chai.request(server)
                 .get('/auth/profile')
                 .set({ Authorization: `Bearer ${token}` })
