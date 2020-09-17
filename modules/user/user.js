@@ -1,10 +1,12 @@
 const fs = require('fs');
+const _ = require('lodash');
+const { validationResult } = require('express-validator')
 
 // Get details of all users
-const getAllUsers =  (req, res, next) => {
+const getAllUsers = (req, res, next) => {
     try {
         const usersList = fs.readFileSync('database/users.json', 'utf8');
-        res.status(200).send({users: JSON.parse(usersList)});
+        res.status(200).send({ users: JSON.parse(usersList) });
     } catch (error) {
         next(error);
     }
@@ -13,10 +15,19 @@ const getAllUsers =  (req, res, next) => {
 // Get detail of a user with Id
 const getUser = async (req, res, next) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).send({ error: "Invalid or No user id" });
+        }
         const usersList = fs.readFileSync('database/users.json', 'utf8');
         const parsedList = JSON.parse(usersList);
         const filterdUser = parsedList.find(user => user.id === Number(req.params.id));
-        res.status(200).send({user: filterdUser});
+
+        if (_.isEmpty(filterdUser)) {
+            res.status(400).send({ user: { message: "No user found!" } });
+        } else {
+            res.status(200).send({ user: filterdUser });
+        }
     } catch (error) {
         next(error);
     }
