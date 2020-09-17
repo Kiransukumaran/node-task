@@ -15,10 +15,6 @@ const getAllUsers = (req, res, next) => {
 // Get detail of a user with Id
 const getUser = async (req, res, next) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).send({ error: "Invalid or No user id" });
-        }
         const usersList = fs.readFileSync('database/users.json', 'utf8');
         const parsedList = JSON.parse(usersList);
         const filterdUser = parsedList.find(user => user.id === Number(req.params.id));
