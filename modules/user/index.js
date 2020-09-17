@@ -1,4 +1,4 @@
-const { paramValidation, validateRequests } = require('../../middlewares/validation');
+const { paramValidation, validateRequests } = require('../../middlewares');
 const { getAllUsers, getUser } = require('./user');
 
 const router = require('express').Router();

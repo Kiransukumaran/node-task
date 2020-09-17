@@ -1,12 +1,14 @@
 const fs = require('fs');
 const _ = require('lodash');
-const { validationResult } = require('express-validator')
+const { validationResult } = require('express-validator');
+const e = require('express');
 
 // Get details of all users
 const getAllUsers = (req, res, next) => {
     try {
         const usersList = fs.readFileSync('database/users.json', 'utf8');
-        res.status(200).send({ users: JSON.parse(usersList) });
+        const parsedResults = JSON.parse(usersList);
+        res.status(200).send({ users: parsedResults.map(e => _.omit(e, ["password"])) });
     } catch (error) {
         next(error);
     }
@@ -16,7 +18,7 @@ const getAllUsers = (req, res, next) => {
 const getUser = async (req, res, next) => {
     try {
         const usersList = fs.readFileSync('database/users.json', 'utf8');
-        const parsedList = JSON.parse(usersList);
+        const parsedList = JSON.parse(usersList).map(e => _.omit(e, ["password"]));
         const filterdUser = parsedList.find(user => user.id === Number(req.params.id));
 
         if (_.isEmpty(filterdUser)) {
